@@ -18,12 +18,15 @@ import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import coil.compose.rememberImagePainter
+import dev.leonardom.firebasecrud.model.Book
 import dev.leonardom.firebasecrud.ui.theme.Red100
 import dev.leonardom.firebasecrud.ui.theme.Yellow600
 
 @ExperimentalMaterialApi
 @Composable
-fun BookListItem() {
+fun BookListItem(
+    book: Book
+) {
     Card(
         elevation = 0.dp
     ){
@@ -32,11 +35,11 @@ fun BookListItem() {
                 .fillMaxWidth()
                 .background(Color.White)
                 .clickable {
-                    TODO("ON ITEM CLICK")
+                    // TODO("ON ITEM CLICK")
                 }
         ){
             Image(
-                painter = rememberImagePainter(""),
+                painter = rememberImagePainter(book.coverURL),
                 contentDescription = "",
                 modifier = Modifier
                     .width(100.dp)
@@ -52,7 +55,7 @@ fun BookListItem() {
             ) {
                 Text(
                     modifier = Modifier.fillMaxWidth(),
-                    text = "Title",
+                    text = book.title,
                     style = TextStyle(
                         fontWeight = FontWeight.Medium,
                         fontSize = 18.sp
@@ -61,7 +64,7 @@ fun BookListItem() {
 
                 Text(
                     modifier = Modifier.fillMaxWidth(),
-                    text = "Author",
+                    text = book.author,
                     style = TextStyle(
                         fontWeight = FontWeight.Light,
                         fontSize = 14.sp,
@@ -82,7 +85,7 @@ fun BookListItem() {
                     )
 
                     Text(
-                        text = "4.5",
+                        text = book.rating.toString(),
                         style = TextStyle(
                             color = Color.Black,
                             fontWeight = FontWeight.Black,
@@ -91,7 +94,7 @@ fun BookListItem() {
                     )
 
                     Text(
-                        text = "0 Descargas",
+                        text = "${book.downloads} Descargas",
                         style = TextStyle(
                             color = Color.Black,
                             fontWeight = FontWeight.Light,

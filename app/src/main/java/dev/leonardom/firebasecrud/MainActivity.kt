@@ -16,10 +16,8 @@ import dev.leonardom.firebasecrud.navigation.Destination
 import dev.leonardom.firebasecrud.presentation.book_detail.BookDetailScreen
 import dev.leonardom.firebasecrud.presentation.book_detail.BookDetailViewModel
 import dev.leonardom.firebasecrud.presentation.book_list.BookListScreen
-import dev.leonardom.firebasecrud.presentation.book_list.BookListState
 import dev.leonardom.firebasecrud.presentation.book_list.BookListViewModel
 import dev.leonardom.firebasecrud.ui.theme.FirebaseCRUDTheme
-import kotlinx.coroutines.ExperimentalCoroutinesApi
 
 @ExperimentalMaterialApi
 @AndroidEntryPoint
@@ -51,12 +49,18 @@ fun NavGraphBuilder.addBookList(
     composable(
         route = Destination.BookList.route
     ){
+
+        val viewModel: BookListViewModel = hiltViewModel()
+        val state = viewModel.state.value
+        val isRefreshing = viewModel.isRefreshing.collectAsState()
+
         BookListScreen(
+            state = state,
             navigateToBookDetail = {
                 navController.navigate(Destination.BookDetail.route)
             },
-            isRefreshing = false,
-            refreshData = {}
+            isRefreshing = isRefreshing.value,
+            refreshData = viewModel::getBookList
         )
     }
 }

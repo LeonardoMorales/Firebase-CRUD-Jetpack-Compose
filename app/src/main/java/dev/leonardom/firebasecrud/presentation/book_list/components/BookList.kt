@@ -17,13 +17,16 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.scale
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import com.google.accompanist.swiperefresh.SwipeRefresh
 import com.google.accompanist.swiperefresh.rememberSwipeRefreshState
+import dev.leonardom.firebasecrud.presentation.book_list.BookListState
 
 @ExperimentalMaterialApi
 @Composable
 fun BookList(
+    state: BookListState,
     isRefreshing: Boolean,
     refreshData: () -> Unit,
 ) {
@@ -38,8 +41,8 @@ fun BookList(
                 modifier = Modifier.fillMaxSize()
             ) {
                 items(
-                    items = listOf<String>()
-                ){
+                    items = state.books
+                ){ book ->
 
                     var isDeleted by remember { mutableStateOf(false) }
                     val dismissState = rememberDismissState(
@@ -95,11 +98,43 @@ fun BookList(
                         if(isDeleted) {
                             // TODO("DELETE BOOK")
                         } else {
-                            BookListItem()
+                            BookListItem(book)
                         }
                     }
                 }
             }
         }
+
+        if(state.error.isNotBlank()) {
+            Text(
+                modifier = Modifier
+                    .fillMaxWidth()
+                    .padding(horizontal = 20.dp)
+                    .align(Alignment.Center),
+                text = state.error,
+                color = Color.Red,
+                textAlign = TextAlign.Center
+            )
+        }
+
+        if(state.isLoading) {
+            CircularProgressIndicator(modifier = Modifier.align(Alignment.Center))
+        }
+
     }
 }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
