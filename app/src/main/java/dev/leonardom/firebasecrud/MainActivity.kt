@@ -60,14 +60,19 @@ fun NavGraphBuilder.addBookList(
                 navController.navigate(Destination.BookDetail.route)
             },
             isRefreshing = isRefreshing.value,
-            refreshData = viewModel::getBookList
+            refreshData = viewModel::getBookList,
+            onItemClick = { bookId ->
+                navController.navigate(
+                    Destination.BookDetail.route + "?bookId=$bookId"
+                )
+            }
         )
     }
 }
 
 fun NavGraphBuilder.addBookDetail() {
     composable(
-        route = Destination.BookDetail.route
+        route = Destination.BookDetail.route + "?bookId={bookId}"
     ){
 
         val viewModel: BookDetailViewModel = hiltViewModel()
@@ -75,7 +80,8 @@ fun NavGraphBuilder.addBookDetail() {
 
         BookDetailScreen(
             state = state,
-            addNewBook = viewModel::addNewBook
+            addNewBook = viewModel::addNewBook,
+            updateBook = viewModel::updateBook
         )
     }
 }

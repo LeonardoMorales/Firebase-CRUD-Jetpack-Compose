@@ -14,11 +14,12 @@ import dev.leonardom.firebasecrud.ui.theme.Red100
 @Composable
 fun BookDetailScreen(
     state: BookDetailState,
-    addNewBook: (String, String) -> Unit
+    addNewBook: (String, String) -> Unit,
+    updateBook: (String, String) -> Unit,
 ) {
 
-    var title by remember { mutableStateOf("") }
-    var author by remember { mutableStateOf("") }
+    var title by remember(state.book?.title){ mutableStateOf(state.book?.title ?: "") }
+    var author by remember(state.book?.author){ mutableStateOf(state.book?.author ?: "") }
 
     Box(
         modifier = Modifier
@@ -67,21 +68,40 @@ fun BookDetailScreen(
         if(state.isLoading){
             CircularProgressIndicator(modifier = Modifier.align(Alignment.Center))
         } else {
-            Button(
-                modifier = Modifier
-                    .fillMaxWidth()
-                    .align(Alignment.BottomCenter),
-                onClick = {
-                    addNewBook(title, author)
-                },
-                colors = ButtonDefaults.buttonColors(
-                    backgroundColor = Red100
-                )
-            ) {
-                Text(
-                    text = "Add New Book",
-                    color = Color.White
-                )
+            if(state.book?.id != null) {
+                Button(
+                    modifier = Modifier
+                        .fillMaxWidth()
+                        .align(Alignment.BottomCenter),
+                    onClick = {
+                        updateBook(title, author)
+                    },
+                    colors = ButtonDefaults.buttonColors(
+                        backgroundColor = Red100
+                    )
+                ) {
+                    Text(
+                        text = "Update Book",
+                        color = Color.White
+                    )
+                }
+            } else {
+                Button(
+                    modifier = Modifier
+                        .fillMaxWidth()
+                        .align(Alignment.BottomCenter),
+                    onClick = {
+                        addNewBook(title, author)
+                    },
+                    colors = ButtonDefaults.buttonColors(
+                        backgroundColor = Red100
+                    )
+                ) {
+                    Text(
+                        text = "Add New Book",
+                        color = Color.White
+                    )
+                }
             }
         }
 

@@ -38,7 +38,52 @@ constructor(
         }
     }
 
+    fun getBookById(bookId: String): Flow<Result<Book>> = flow {
+        try {
+            emit(Result.Loading<Book>())
+
+            val book = bookList
+                .whereGreaterThanOrEqualTo("id", bookId)
+                .get()
+                .await()
+                .toObjects(Book::class.java)
+                .first()
+
+
+            emit(Result.Success<Book>(data = book))
+
+        } catch (e: Exception) {
+            emit(Result.Error<Book>(message = e.localizedMessage ?: "Error Desconocido"))
+        }
+    }
+
+    fun updateBook(bookId: String, book: Book) {
+        try {
+            val map = mapOf(
+                "title" to book.title,
+                "author" to book.author
+            )
+
+            bookList.document(bookId).update(map)
+
+        } catch (e: Exception) {
+            e.printStackTrace()
+        }
+    }
+
 }
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 

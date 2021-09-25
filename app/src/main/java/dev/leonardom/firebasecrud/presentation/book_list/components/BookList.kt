@@ -29,6 +29,7 @@ fun BookList(
     state: BookListState,
     isRefreshing: Boolean,
     refreshData: () -> Unit,
+    onItemClick: (String) -> Unit
 ) {
     Box(
         modifier = Modifier.fillMaxSize(),
@@ -98,7 +99,10 @@ fun BookList(
                         if(isDeleted) {
                             // TODO("DELETE BOOK")
                         } else {
-                            BookListItem(book)
+                            BookListItem(
+                                book,
+                                onItemClick = onItemClick
+                            )
                         }
                     }
                 }

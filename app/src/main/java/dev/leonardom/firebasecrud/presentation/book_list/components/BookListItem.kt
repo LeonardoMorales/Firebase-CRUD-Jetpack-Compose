@@ -25,7 +25,8 @@ import dev.leonardom.firebasecrud.ui.theme.Yellow600
 @ExperimentalMaterialApi
 @Composable
 fun BookListItem(
-    book: Book
+    book: Book,
+    onItemClick: (String) -> Unit
 ) {
     Card(
         elevation = 0.dp
@@ -34,9 +35,7 @@ fun BookListItem(
             modifier = Modifier
                 .fillMaxWidth()
                 .background(Color.White)
-                .clickable {
-                    // TODO("ON ITEM CLICK")
-                }
+                .clickable { onItemClick(book.id) }
         ){
             Image(
                 painter = rememberImagePainter(book.coverURL),
