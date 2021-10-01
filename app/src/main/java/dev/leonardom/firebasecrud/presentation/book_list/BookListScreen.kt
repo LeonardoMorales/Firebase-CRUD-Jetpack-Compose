@@ -20,7 +20,8 @@ fun BookListScreen(
     navigateToBookDetail: () -> Unit,
     isRefreshing: Boolean,
     refreshData: () -> Unit,
-    onItemClick: (String) -> Unit
+    onItemClick: (String) -> Unit,
+    deleteBook: (String) -> Unit
 ) {
     Scaffold(
         modifier = Modifier.fillMaxSize(),
@@ -38,7 +39,8 @@ fun BookListScreen(
             state = state,
             isRefreshing = isRefreshing,
             refreshData = refreshData,
-            onItemClick = onItemClick
+            onItemClick = onItemClick,
+            deleteBook = deleteBook
         )
     }
 }

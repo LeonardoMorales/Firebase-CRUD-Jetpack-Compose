@@ -71,6 +71,14 @@ constructor(
         }
     }
 
+    fun deleteBook(bookId: String) {
+        try {
+            bookList.document(bookId).delete()
+        } catch (e: Exception) {
+            e.printStackTrace()
+        }
+    }
+
 }
 
 
